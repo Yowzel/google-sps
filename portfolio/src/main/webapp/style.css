@@ -4,6 +4,34 @@
   width: 650px;
 }
 
-#greeting-container {
+.image-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-thumbnails img {
+  margin: 10px;
+  max-height: 300px;
+  max-width: 500px;
+}
+
+.image-thumbnails img:hover {
+  border: thick solid black;
+}
+
+#random-image-container img {
   margin-top: 20px;
+}
+
+.profiles {
+    display: flex;
+    flex-wrap: warp;
+    justify-content: center;
+}
+
+.profiles img {
+  margin: 10px;
+  height: 100x;
+  width: 100px;
 }
