@@ -18,43 +18,74 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
+@WebServlet("/text")
 public class DataServlet extends HttpServlet {
-    private ArrayList<String> comments;
+
+    List<String> comments = new ArrayList<>();
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    comments = new ArrayList<>();
-    comments.add("Make in your face like a samsung");
-    comments.add("I took it and I ran for it");
-    comments.add("Smile pearl white, shine so bright");
+  // this function takes the post/ converts text into string/ adds to array list/ then displays text
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String text = getParameter(request, "text-input", "");
+
+    //adds to array list
+    comments.add(text);
+
+    // Respond with the result.
+    response.setContentType("text/html;");
+    //printing the text
+    response.getWriter().println(comments.get(0));
+  }
+    // tbh idk what this does
+    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
     
-    String test = "Hello Gia-Huy Gonzalez!";
-    String json = convertToJson(comments);
 
-    //response.setContentType("text/html;");
-    //response.getWriter().println(test);
-        // Send the JSON as the response
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
-  }
 
-  private String convertToJson(ArrayList quote) {
-    String json = "{";
-    json += "\"Lyric1\": ";
-    json += "\"" + quote.get(0) + "\"";
-    json += ", ";
-    json += "\"Lyric2\": ";
-    json += "\"" + quote.get(1) + "\"";
-    json += ", ";
-    json += "\"Lyric3\": ";
-    json += "\""+ quote.get(2) + "\"";
-    json += "}";
-    return json;
-  }
+
+
+
+
+
+
+
+
+
+// convert to json doGet
+//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    
+//     String test = "Hello Gia-Huy Gonzalez!";
+//     String json = convertToJson(comments);
+
+//     response.setContentType("application/json;");
+//     response.getWriter().println(json);
+//   }
+
+
+// convert to json function
+//   private String convertToJson(ArrayList quote) {
+//     String json = "{";
+//     json += "\"Lyric1\": ";
+//     json += "\"" + quote.get(0) + "\"";
+//     json += ", ";
+//     json += "\"Lyric2\": ";
+//     json += "\"" + quote.get(1) + "\"";
+//     json += ", ";
+//     json += "\"Lyric3\": ";
+//     json += "\""+ quote.get(2) + "\"";
+//     json += "}";
+//     return json;
+//   }
 }
