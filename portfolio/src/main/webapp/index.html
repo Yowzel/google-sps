@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body style="background-color:powderblue;">
+  <body style="background-color:powderblue;" onload = "loadTasks()">
     <div id="content">
       <h1>Gia-Huy's Portfolio</h1>
       <img src = "/images/IMG_1901.JPG" alt = "me" height= "600">
@@ -19,21 +19,15 @@
           <a href="https://www.github.com/yowzel/" target="_blank"> <img src= "/images/github.png" > </a>
           <a href="https://www.linkedin.com/in/gia-huy-gonzalez-21011b16b/" target="_blank"> <img src= "/images/logo.png" > </a>
       </div>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <button onclick="getDoja()">Fetch</button>
-      <div id="greeting-container"></div>
-      <div id="quote-container"></div>
-      <button onclick="getServerStats()">Fetch</button>
-      <ul id="server"></ul>
-    </div>
 
-    <form action="/text" method="POST">
-
-      <p>Tell me about yourself!:</p>
-      <textarea name="text-input">enter text here!</textarea>
-      <br/><br/>
-      <input type="submit" />
-      
+    <form action="/new-comments" method="POST">
+      <p>What's your favorite quote?</p>
+      <input type="text" name = "quote"/>
+      <br/>
+      <button> Submit! </button>
     </form>
+    </hr>
+    <ul id="quote-list"></ul>
+    </div>
   </body>
 </html>
