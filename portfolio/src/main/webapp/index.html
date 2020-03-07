@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Giahuy's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABaFEP3CmoY9EVSW7l0NU-dl2-dZieTGs"></script>
     <script src="script.js"></script>
   </head>
-  <body style="background-color:powderblue;" onload = "loadTasks()">
+  <body style="background-color:powderblue;" onload = "loadTasks(); createMap();">
     <div id="content">
       <h1>Gia-Huy's Portfolio</h1>
       <img src = "/images/IMG_1901.JPG" alt = "me" height= "600">
@@ -28,6 +29,10 @@
     </form>
     </hr>
     <ul id="quote-list"></ul>
+
+    <div id="map"></div>
+
     </div>
+
   </body>
 </html>
