@@ -189,6 +189,20 @@ function createMap() {
           }
         });
 
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Shady\'s Coffee!</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>Shadys</b>, also referred to as <b>the best coffee shop</b>, is a small ' +
+            'coffee shop in roseville, that is really pretty and an amazing place '+
+            'to chill and study '+
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
         //Associate the styled map with the MapTypeId and set it to display.
         map.mapTypes.set('styled_map', styledMapType);
         map.setMapTypeId('styled_map');
@@ -198,4 +212,8 @@ function createMap() {
             map: map,
             title: 'Stan the T-Rex'
         });
+        trexMarker.addListener('click', function() {
+            infowindow.open(map, trexMarker);
+        });
+
       }
