@@ -56,3 +56,29 @@ function addQuoteToDom(test) {
   const quoteContainer = document.getElementById('quote-container');
   quoteContainer.innerText = test;
 }
+
+function getServerStats() {
+  fetch('/data').then(response => response.json()).then((stats) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+    console.log(stats.Lyric1);
+    console.log(stats.Lyric2);
+    console.log(stats.Lyric3);
+
+    const statsListElement = document.getElementById('server');
+    statsListElement.innerHTML = '';
+    statsListElement.appendChild(
+        createListElement(stats.Lyric1));
+    statsListElement.appendChild(
+        createListElement(stats.Lyric2));
+    statsListElement.appendChild(
+        createListElement(stats.Lyric3));
+  });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}

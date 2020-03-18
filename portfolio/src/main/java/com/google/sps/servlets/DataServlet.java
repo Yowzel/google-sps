@@ -15,6 +15,9 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import com.google.gson.Gson;
+import java.util.List;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +26,35 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-
+    private ArrayList<String> comments;
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    comments = new ArrayList<>();
+    comments.add("Make in your face like a samsung");
+    comments.add("I took it and I ran for it");
+    comments.add("Smile pearl white, shine so bright");
+    
     String test = "Hello Gia-Huy Gonzalez!";
-    response.setContentType("text/html;");
-    response.getWriter().println(test);
+    String json = convertToJson(comments);
+
+    //response.setContentType("text/html;");
+    //response.getWriter().println(test);
+        // Send the JSON as the response
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+  private String convertToJson(ArrayList quote) {
+    String json = "{";
+    json += "\"Lyric1\": ";
+    json += "\"" + quote.get(0) + "\"";
+    json += ", ";
+    json += "\"Lyric2\": ";
+    json += "\"" + quote.get(1) + "\"";
+    json += ", ";
+    json += "\"Lyric3\": ";
+    json += "\""+ quote.get(2) + "\"";
+    json += "}";
+    return json;
   }
 }
