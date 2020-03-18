@@ -15,6 +15,9 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.ArrayList;
@@ -25,67 +28,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/text")
+@WebServlet("/new-comments")
 public class DataServlet extends HttpServlet {
 
-    List<String> comments = new ArrayList<>();
   @Override
-  // this function takes the post/ converts text into string/ adds to array list/ then displays text
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String text = getParameter(request, "text-input", "");
-
-    //adds to array list
-    comments.add(text);
-
-    // Respond with the result.
-    response.setContentType("text/html;");
-    //printing the text
-    response.getWriter().println(comments.get(0));
-  }
-    // tbh idk what this does
-    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
-  }
+  // This gets the post from index.html and stores the data
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // this is going to save the users inputed string
+    String quote = request.getParameter("quote");
     
+    // I guess i'll keep this incase I need it?
+    // just save when the users posted this
+    long timestamp = System.currentTimeMillis();
 
-
-
-
-
-
-
-
-
-
-
-// convert to json doGet
-//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // creates entity which is needed to store into datastore
+    Entity taskEntity = new Entity("Task");
     
-//     String test = "Hello Gia-Huy Gonzalez!";
-//     String json = convertToJson(comments);
+    // puts the information into entity
+    taskEntity.setProperty("quote", quote);
+    taskEntity.setProperty("timestamp", timestamp);
 
-//     response.setContentType("application/json;");
-//     response.getWriter().println(json);
-//   }
+    // creates the datastore, which is where i'm going to store users quotes
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // puts the users quote/comment into datastore
+    datastore.put(taskEntity);
 
-
-// convert to json function
-//   private String convertToJson(ArrayList quote) {
-//     String json = "{";
-//     json += "\"Lyric1\": ";
-//     json += "\"" + quote.get(0) + "\"";
-//     json += ", ";
-//     json += "\"Lyric2\": ";
-//     json += "\"" + quote.get(1) + "\"";
-//     json += ", ";
-//     json += "\"Lyric3\": ";
-//     json += "\""+ quote.get(2) + "\"";
-//     json += "}";
-//     return json;
-//   }
+    // redirect the page and this will trigger the onload show it can show the comments/quotes
+    response.sendRedirect("/index.html");
+  }
 }
