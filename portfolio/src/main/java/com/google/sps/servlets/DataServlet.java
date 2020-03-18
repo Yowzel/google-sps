@@ -15,46 +15,45 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
+@WebServlet("/new-comments")
 public class DataServlet extends HttpServlet {
-    private ArrayList<String> comments;
+
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    comments = new ArrayList<>();
-    comments.add("Make in your face like a samsung");
-    comments.add("I took it and I ran for it");
-    comments.add("Smile pearl white, shine so bright");
+  // This gets the post from index.html and stores the data
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // this is going to save the users inputed string
+    String quote = request.getParameter("quote");
     
-    String test = "Hello Gia-Huy Gonzalez!";
-    String json = convertToJson(comments);
+    // I guess i'll keep this incase I need it?
+    // just save when the users posted this
+    long timestamp = System.currentTimeMillis();
 
-    //response.setContentType("text/html;");
-    //response.getWriter().println(test);
-        // Send the JSON as the response
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
-  }
+    // creates entity which is needed to store into datastore
+    Entity taskEntity = new Entity("Task");
+    
+    // puts the information into entity
+    taskEntity.setProperty("quote", quote);
+    taskEntity.setProperty("timestamp", timestamp);
 
-  private String convertToJson(ArrayList quote) {
-    String json = "{";
-    json += "\"Lyric1\": ";
-    json += "\"" + quote.get(0) + "\"";
-    json += ", ";
-    json += "\"Lyric2\": ";
-    json += "\"" + quote.get(1) + "\"";
-    json += ", ";
-    json += "\"Lyric3\": ";
-    json += "\""+ quote.get(2) + "\"";
-    json += "}";
-    return json;
+    // creates the datastore, which is where i'm going to store users quotes
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // puts the users quote/comment into datastore
+    datastore.put(taskEntity);
+
+    // redirect the page and this will trigger the onload show it can show the comments/quotes
+    response.sendRedirect("/index.html");
   }
 }
